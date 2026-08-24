@@ -72,9 +72,9 @@ func (f *VatlineFSM) Dispatch(ctx context.Context, event PlantEvent) (model.Plan
 	}
 	next, ok := NextState(f.state, event)
 	if !ok {
-		if f.hooks != nil {
-			_ = f.hooks.RunAfter(ctx, f.state, f.state, event)
-		}
+		// Illegal transition: the state is unchanged, so no after-hook side
+		// effects (e.g. vatlock drive pulse) may fire. Rejecting a move is
+		// a no-op, not an accepted transition.
 		return f.state, fmt.Errorf("%s from %s: %w", event, f.state, ErrIllegalTransition)
 	}
 	if event == EvIgnite && !f.liquorPermissive {
