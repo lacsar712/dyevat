@@ -231,6 +231,10 @@ func (a *App) runTick(ctx context.Context) error {
 	_ = a.store.UpdateVatline(a.cfg.UnitID, vatlineReading)
 	a.refreshPermissives(a.Snapshot())
 	a.telemetry.RecordTick(firing)
+	if a.vatline.Pressure().TripRequired(vatlineReading.SteamPressurePSI) {
+		_ = a.Trip(ctx, "pressure")
+		return nil
+	}
 	if a.recipe.TripRequired(recipeReading) {
 		_ = a.Trip(ctx, "recipe_level")
 	}
