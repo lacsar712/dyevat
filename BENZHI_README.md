@@ -1,6 +1,6 @@
-# HookRelay
+# dyevat
 
-Signed ingress + reliable outbound webhook delivery (retry, circuit breaker, rate limit, DLQ, replay).
+dyevat 是一套纺织染缸工业过程控制系统，用于染液温度、配方阶段与操作员 HMI 联锁。
 
 ## Requirements
 
